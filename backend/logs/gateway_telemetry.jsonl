@@ -1,0 +1,7 @@
+{"timestamp": "2026-10-31T14:35:41.631108", "api_key": "gw_test123", "source": "llm_generation", "latency_ms": 798.46, "estimated_cost_usd": 4e-06, "prompt_length": 42, "response_length": 177}
+{"timestamp": "2026-10-31T15:14:43.995930", "api_key": "gw_test123", "source": "llm_generation", "latency_ms": 3833.54, "estimated_cost_usd": 6.9e-05, "prompt_length": 42, "response_length": 3436}
+{"timestamp": "2026-10-31T15:15:20.587237", "api_key": "gw_test123", "source": "layer1_exact_cache", "latency_ms": 73.01, "estimated_cost_usd": 6.9e-05, "prompt_length": 42, "response_length": 3436}
+{"timestamp": "2026-10-31T15:15:41.530794", "api_key": "gw_test123", "source": "layer2_semantic_cache", "latency_ms": 1162.58, "estimated_cost_usd": 6.9e-05, "prompt_length": 47, "response_length": 3436}
+{"timestamp": "2026-10-31T15:15:54.524539", "api_key": "gw_test123", "source": "layer1_exact_cache", "latency_ms": 75.67, "estimated_cost_usd": 6.9e-05, "prompt_length": 47, "response_length": 3436}
+{"timestamp": "2026-10-31T15:16:01.068571", "api_key": "gw_test123", "source": "layer1_exact_cache", "latency_ms": 69.76, "estimated_cost_usd": 6.9e-05, "prompt_length": 47, "response_length": 3436}
+{"timestamp": "2026-10-31T15:16:10.557967", "api_key": "gw_test123", "source": "layer1_exact_cache", "latency_ms": 62.55, "estimated_cost_usd": 6.9e-05, "prompt_length": 47, "response_length": 3436}
