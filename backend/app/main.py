@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from app.core.config import settings
 from app.api.routes import router as api_router
-
+from app.core.redis import redis_client
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -10,24 +10,22 @@ app = FastAPI(
     description="Production-grade LLM API Gateway"
 )
 
-@app.get('/')
-async def root():
-    return {"message": "Welcome to the Enterprise LLM Gateway"}
+# Register the API routes
+app.include_router(api_router, prefix="/api")
 
 @app.get("/health", tags=["System"])
 async def health_check():
     """
-    Used by load balancers to verify the instance is healthy.
+    Checks if the API and the Redis database are both online.
     """
+    try:
+        await redis_client.ping()
+        redis_status = "connected"
+    except Exception as e:
+        redis_status = f"disconnected: {str(e)}"
+
     return {
-        "status": "healthy",
-        "service": settings.PROJECT_NAME,
-        "version": settings.VERSION
+        "api_status": "healthy",
+        "redis_status": redis_status,
+        "service": settings.PROJECT_NAME
     }
-
-
-# Add this near your imports in app/main.py
-
-
-# Add this below your app initialization
-app.include_router(api_router, prefix="/api")
