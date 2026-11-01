@@ -87,3 +87,18 @@ async def get_telemetry():
                     
     # Return the last 50 requests to keep the UI fast
     return {"data": telemetry_data[-50:]}
+
+
+from app.services.auth import generate_key, get_all_keys
+
+class NewKeyRequest(BaseModel):
+    owner_name: str
+
+@router.get("/v1/keys")
+async def list_keys():
+    return {"data": get_all_keys()}
+
+@router.post("/v1/keys")
+async def create_new_key(request: NewKeyRequest):
+    new_key = generate_key(request.owner_name)
+    return {"status": "success", "key": new_key, "owner": request.owner_name}

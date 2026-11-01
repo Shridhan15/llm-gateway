@@ -17,6 +17,7 @@ import ChatTester from "../components/ChatTester";
 const Dashboard = () => {
   const [telemetryData, setTelemetryData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedKey, setSelectedKey] = useState("All"); // New state for dropdown
 
   // Fetch live data from FastAPI
   useEffect(() => {
@@ -33,26 +34,35 @@ const Dashboard = () => {
     };
 
     fetchTelemetry();
-
-    // Optional: Refresh every 5 seconds for a "live" feel
     const interval = setInterval(fetchTelemetry, 5000);
     return () => clearInterval(interval);
   }, []);
 
-  // Calculate live metrics for the StatCards
-  const totalRequests = telemetryData.length;
-  const cacheHits = telemetryData.filter((d) =>
+  // 1. Extract unique keys for the dropdown
+  const uniqueKeys = [
+    "All",
+    ...new Set(telemetryData.map((d) => d.api_key).filter(Boolean)),
+  ];
+
+  // 2. Filter the data based on the dropdown selection
+  const displayData =
+    selectedKey === "All"
+      ? telemetryData
+      : telemetryData.filter((d) => d.api_key === selectedKey);
+
+  // 3. Calculate metrics using ONLY the filtered displayData
+  const totalRequests = displayData.length;
+  const cacheHits = displayData.filter((d) =>
     d.source.includes("cache"),
   ).length;
   const hitRate =
     totalRequests > 0 ? ((cacheHits / totalRequests) * 100).toFixed(1) : 0;
 
-  const totalCost = telemetryData
+  const totalCost = displayData
     .reduce((sum, req) => sum + req.estimated_cost_usd, 0)
     .toFixed(6);
 
-  // Calculate average latency for cached vs non-cached
-  const cachedReqs = telemetryData.filter((d) => d.source.includes("cache"));
+  const cachedReqs = displayData.filter((d) => d.source.includes("cache"));
   const avgCacheLatency =
     cachedReqs.length > 0
       ? Math.round(
@@ -66,54 +76,71 @@ const Dashboard = () => {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
+      {/* Header with Dropdown */}
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-900">System Overview</h2>
-        <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium border border-green-200">
-          API Healthy
-        </span>
+
+        <div className="flex items-center gap-4">
+          {/* API Key Selector */}
+          <select
+            value={selectedKey}
+            onChange={(e) => setSelectedKey(e.target.value)}
+            className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
+          >
+            {uniqueKeys.map((key) => (
+              <option key={key} value={key}>
+                {key === "All" ? "All API Keys" : `Key: ${key}`}
+              </option>
+            ))}
+          </select>
+
+          <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium border border-green-200">
+            API Healthy
+          </span>
+        </div>
       </div>
 
+      {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title="Total Requests"
-          value="5"
-          subtext="Last 24 hours"
+          value={totalRequests}
+          subtext="Tracked logs"
           icon={Activity}
         />
         <StatCard
           title="Cache Hit Rate"
-          value="80.0%"
-          subtext="4/5 intercepted"
+          value={`${hitRate}%`}
+          subtext={`${cacheHits} intercepted`}
           icon={Database}
-          trend="good"
+          trend={hitRate > 50 ? "good" : "neutral"}
         />
         <StatCard
           title="Avg Latency (Cache)"
-          value="70 ms"
-          subtext="vs 3.8s LLM baseline"
+          value={`${avgCacheLatency} ms`}
+          subtext="From Upstash Edge"
           icon={Zap}
           trend="good"
         />
         <StatCard
           title="Total Cost"
-          value="$0.000069"
-          subtext="$0.000276 saved"
+          value={`$${totalCost}`}
+          subtext="Llama 3 Tokens"
           icon={DollarSign}
         />
       </div>
 
-      {/* Replace your existing grid grid-cols-1 lg:grid-cols-2 with this: */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column: Charts (Takes up 2/3 of the space) */}
+        {/* Left Column: Charts */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Latency Chart */}
           <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
             <h3 className="text-lg font-semibold text-gray-800 mb-4">
               Request Latency (ms)
             </h3>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={telemetryData}>
+                {/* Bind charts to displayData */}
+                <LineChart data={displayData}>
                   <CartesianGrid
                     strokeDasharray="3 3"
                     vertical={false}
@@ -149,14 +176,14 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Cost Analysis Chart */}
           <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
             <h3 className="text-lg font-semibold text-gray-800 mb-4">
               Token Cost vs Savings (USD)
             </h3>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={telemetryData}>
+                {/* Bind charts to displayData */}
+                <BarChart data={displayData}>
                   <CartesianGrid
                     strokeDasharray="3 3"
                     vertical={false}
@@ -188,7 +215,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Right Column: Live Chat Tester (Takes up 1/3 of the space) */}
+        {/* Right Column: Live Chat Tester */}
         <div className="lg:col-span-1">
           <ChatTester />
         </div>

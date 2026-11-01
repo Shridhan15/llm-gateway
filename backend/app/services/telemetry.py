@@ -17,7 +17,7 @@ def calculate_estimated_cost(prompt: str, response: str, source: str) -> float:
     Simulates calculating the cost based on Llama 3 API pricing.
     If it's a cache hit, the cost is exactly $0.00.
     """
-    if source == "redis_exact_cache":
+    if source == "layer1_exact_cache" or source == "layer2_semantic_cache":
         return 0.0
     
     # Rough estimation: 1 token is roughly 4 characters

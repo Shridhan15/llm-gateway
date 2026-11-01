@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard";
+import APIKeys from "./pages/APIKeys";
 
 function App() {
   return (
@@ -12,12 +13,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             {/* Future routes */}
-            <Route
-              path="/keys"
-              element={
-                <div className="text-gray-500">API Keys View (Coming Soon)</div>
-              }
-            />
+
+            <Route path="/keys" element={<APIKeys />} />
             <Route
               path="/logs"
               element={

@@ -10,3 +10,14 @@
 {"timestamp": "2026-11-01T04:51:03.151681", "api_key": "gw_test123", "source": "layer1_exact_cache", "latency_ms": 61.36, "estimated_cost_usd": 6e-06, "prompt_length": 29, "response_length": 286}
 {"timestamp": "2026-11-01T04:51:15.185786", "api_key": "gw_test123", "source": "layer2_semantic_cache", "latency_ms": 1367.32, "estimated_cost_usd": 6e-06, "prompt_length": 23, "response_length": 286}
 {"timestamp": "2026-11-01T04:51:18.347293", "api_key": "gw_test123", "source": "layer1_exact_cache", "latency_ms": 70.28, "estimated_cost_usd": 6e-06, "prompt_length": 23, "response_length": 286}
+{"timestamp": "2026-11-01T05:25:02.967204", "api_key": "gw_test123", "source": "llm_generation", "latency_ms": 2339.42, "estimated_cost_usd": 4e-06, "prompt_length": 34, "response_length": 200}
+{"timestamp": "2026-11-01T05:25:11.797685", "api_key": "gw_test123", "source": "layer1_exact_cache", "latency_ms": 57.25, "estimated_cost_usd": 4e-06, "prompt_length": 34, "response_length": 200}
+{"timestamp": "2026-11-01T05:25:14.270997", "api_key": "gw_test123", "source": "layer1_exact_cache", "latency_ms": 56.12, "estimated_cost_usd": 4e-06, "prompt_length": 34, "response_length": 200}
+{"timestamp": "2026-11-01T05:25:41.284079", "api_key": "gw_test123", "source": "layer2_semantic_cache", "latency_ms": 1034.25, "estimated_cost_usd": 5e-06, "prompt_length": 42, "response_length": 200}
+{"timestamp": "2026-11-01T05:30:24.511252", "api_key": "gw_test123", "source": "llm_generation", "latency_ms": 1843.35, "estimated_cost_usd": 4e-06, "prompt_length": 41, "response_length": 186}
+{"timestamp": "2026-11-01T05:30:44.648171", "api_key": "gw_test123", "source": "layer1_exact_cache", "latency_ms": 97.06, "estimated_cost_usd": 4e-06, "prompt_length": 41, "response_length": 186}
+{"timestamp": "2026-11-01T05:31:08.910755", "api_key": "gw_test123", "source": "layer2_semantic_cache", "latency_ms": 1121.23, "estimated_cost_usd": 4e-06, "prompt_length": 33, "response_length": 186}
+{"timestamp": "2026-11-01T05:33:51.337304", "api_key": "gw_test123", "source": "layer1_exact_cache", "latency_ms": 92.3, "estimated_cost_usd": 0.0, "prompt_length": 33, "response_length": 186}
+{"timestamp": "2026-11-01T17:45:27.409507", "api_key": "gw_a626424e45ec5922673e70dbac11d1e5", "source": "llm_generation", "latency_ms": 2211.15, "estimated_cost_usd": 7e-06, "prompt_length": 38, "response_length": 339}
+{"timestamp": "2026-11-01T17:45:34.512197", "api_key": "gw_a626424e45ec5922673e70dbac11d1e5", "source": "layer1_exact_cache", "latency_ms": 71.06, "estimated_cost_usd": 0.0, "prompt_length": 38, "response_length": 339}
+{"timestamp": "2026-11-01T17:45:41.755715", "api_key": "gw_a626424e45ec5922673e70dbac11d1e5", "source": "layer2_semantic_cache", "latency_ms": 1418.62, "estimated_cost_usd": 0.0, "prompt_length": 33, "response_length": 339}
