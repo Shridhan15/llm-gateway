@@ -56,3 +56,34 @@ async def chat_completion(
     )
 
     return {"status": "success", "source": "llm_generation", "data": generated_text}
+
+
+ 
+import json
+from pathlib import Path
+
+@router.get("/v1/telemetry")
+async def get_telemetry():
+    """Reads the local JSONL log file and returns it for the dashboard."""
+    log_file = Path("logs/gateway_telemetry.jsonl")
+    
+    if not log_file.exists():
+        return {"data": []}
+        
+    telemetry_data = []
+    
+    # Read the file line by line
+    with open(log_file, "r") as f:
+        for line in f:
+            if line.strip():
+                try:
+                    entry = json.loads(line)
+                    # Format timestamp to just show HH:MM for the chart
+                    time_str = entry["timestamp"].split("T")[1][:5]
+                    entry["time"] = time_str
+                    telemetry_data.append(entry)
+                except json.JSONDecodeError:
+                    continue
+                    
+    # Return the last 50 requests to keep the UI fast
+    return {"data": telemetry_data[-50:]}
